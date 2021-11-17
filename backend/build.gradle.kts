@@ -1,18 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val ktor_version: String by project
-val kotlin_version: String by project
-val logback_version: String by project
-val exposed_version: String by project
-val flyway_version: String by project
-val hikaricp_version: String by project
-val h2_version: String by project
 val compileKotlin: KotlinCompile by tasks
 
 plugins {
     application
-    kotlin("jvm") version "1.5.31"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.5.31"
+    kotlin("jvm") version "1.6.0"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.0"
     id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
 }
 
@@ -33,17 +26,17 @@ repositories {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core:$ktor_version")
-    implementation("io.ktor:ktor-serialization:$ktor_version")
-    implementation("io.ktor:ktor-server-netty:$ktor_version")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("io.ktor:ktor-server-core:1.6.5")
+    implementation("io.ktor:ktor-serialization:1.6.5")
+    implementation("io.ktor:ktor-server-netty:1.6.5")
+    implementation("ch.qos.logback:logback-classic:1.2.6")
 
-    implementation("com.h2database:h2:$h2_version")
-    implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
-    implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
-    implementation("com.zaxxer:HikariCP:$hikaricp_version")
-    implementation("org.flywaydb:flyway-core:$flyway_version")
+    implementation("com.h2database:h2:1.4.200")
+    implementation("org.jetbrains.exposed:exposed-core:0.36.2")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.36.2")
+    implementation("com.zaxxer:HikariCP:5.0.0")
+    implementation("org.flywaydb:flyway-core:8.0.4")
 
-    testImplementation("io.ktor:ktor-server-tests:$ktor_version")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    testImplementation("io.ktor:ktor-server-tests:1.6.5")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.5.31")
 }
