@@ -38,5 +38,5 @@ dependencies {
     implementation("org.flywaydb:flyway-core:8.0.4")
 
     testImplementation("io.ktor:ktor-server-tests:1.6.5")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.5.31")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.6.0")
 }
