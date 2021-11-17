@@ -10,7 +10,6 @@ RUN ./gradlew wrapper
 COPY src ./src
 RUN ./gradlew installDist
 
-
 FROM openjdk:16-jdk
 EXPOSE 8080
 WORKDIR /app
