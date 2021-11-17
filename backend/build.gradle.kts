@@ -29,7 +29,7 @@ dependencies {
     implementation("io.ktor:ktor-server-core:1.6.5")
     implementation("io.ktor:ktor-serialization:1.6.5")
     implementation("io.ktor:ktor-server-netty:1.6.5")
-    implementation("ch.qos.logback:logback-classic:1.2.6")
+    implementation("ch.qos.logback:logback-classic:1.2.7")
 
     implementation("com.h2database:h2:1.4.200")
     implementation("org.jetbrains.exposed:exposed-core:0.36.2")
