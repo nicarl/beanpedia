@@ -37,6 +37,6 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.0.0")
     implementation("org.flywaydb:flyway-core:8.1.0")
 
-    testImplementation("io.ktor:ktor-server-tests:1.6.5")
+    testImplementation("io.ktor:ktor-server-tests:1.6.6")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.6.0")
 }
