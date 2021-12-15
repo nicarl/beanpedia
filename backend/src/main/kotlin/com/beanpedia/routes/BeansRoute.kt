@@ -7,7 +7,6 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import java.util.*
 
 fun Route.beans(beanService: BeanService) {
     route("/beans") {
@@ -21,15 +20,23 @@ fun Route.beans(beanService: BeanService) {
         }
 
         get("/{id}") {
-            val id = UUID.fromString(call.parameters["id"]) ?: throw IllegalStateException("Must provide id")
+            val id = getUUIDFromPath()
             val bean = beanService.getBean(id)
             if (bean == null) call.respond(HttpStatusCode.NotFound)
             else call.respond(bean)
         }
 
-        put("/{id}") {}
+        put("/{id}") {
+            val id = getUUIDFromPath()
+            val bean = call.receive<NewBean>()
+            val updatedBean = beanService.updateBean(bean, id)
+            call.respond(updatedBean)
+        }
 
         delete("/{id}") {
+            val id = getUUIDFromPath()
+            beanService.deleteBean(id)
+            call.respond(HttpStatusCode.OK)
         }
     }
 }
