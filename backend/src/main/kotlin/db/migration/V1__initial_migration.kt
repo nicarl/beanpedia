@@ -277,7 +277,6 @@ class V1__initial_migration : BaseJavaMigration() {
                 countryCode ->
                 this[CountryEntities.alpha2Code] = countryCode
             }
-//            }
         }
     }
 }

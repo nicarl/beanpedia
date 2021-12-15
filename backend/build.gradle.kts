@@ -11,7 +11,7 @@ plugins {
 
 tasks.withType<KotlinCompile>().all {
     kotlinOptions {
-        jvmTarget = "16"
+        jvmTarget = "17"
     }
 }
 
@@ -31,7 +31,7 @@ dependencies {
     implementation("io.ktor:ktor-server-netty:1.6.7")
     implementation("ch.qos.logback:logback-classic:1.2.8")
 
-    implementation("com.h2database:h2:2.0.202")
+    implementation("com.h2database:h2:1.4.200")
     implementation("org.jetbrains.exposed:exposed-core:0.36.2")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.36.2")
     implementation("com.zaxxer:HikariCP:5.0.0")
@@ -39,4 +39,13 @@ dependencies {
 
     testImplementation("io.ktor:ktor-server-tests:1.6.7")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.6.10")
+//    testImplementation("org.assertj:assertj-core:3.19.0")
+//    testImplementation("io.rest-assured:rest-assured:4.4.0")
+    testImplementation("io.github.serpro69:kotlin-faker:1.8.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

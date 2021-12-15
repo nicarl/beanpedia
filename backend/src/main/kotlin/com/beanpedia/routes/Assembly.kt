@@ -6,12 +6,12 @@ import io.ktor.application.*
 import io.ktor.routing.*
 
 fun Application.configureRouting(
-    beanService: BeanService,
-    roasteryService: RoasteryService
+        beanService: BeanService,
+        roasteryService: RoasteryService
 ) {
     routing {
         status()
         beans(beanService)
-        roasteries(roasteryService)
+        roasteries(roasteryService, beanService)
     }
 }

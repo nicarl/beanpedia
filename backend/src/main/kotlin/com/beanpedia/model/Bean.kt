@@ -10,7 +10,7 @@ enum class DegreeOfRoasting {
 
 object CountryEntities : Table() {
     val id = integer("id").autoIncrement()
-    val alpha2Code = char("alpha2Code", length = 2)
+    val alpha2Code = char("alpha2Code", length = 2).uniqueIndex()
     override val primaryKey = PrimaryKey(BeanEntities.id)
 }
 
@@ -28,7 +28,7 @@ object BeanEntities : Table() {
     val name = varchar("name", length = 255)
     val roasteryId = reference("roasteryId", RoasteryEntities.id, ReferenceOption.CASCADE, ReferenceOption.RESTRICT)
     val altitude = varchar("altitude", length = 255).nullable()
-    val degreeOfRoasting = customEnumeration("degreeOfRoasting", "ENUM('LIGHT', 'MEDIUM', 'DARK')", { DegreeOfRoasting.values()[it as Int] }, { it.name }).nullable()
+    val degreeOfRoasting = customEnumeration("degreeOfRoasting", "ENUM('LIGHT', 'MEDIUM', 'DARK')", { value -> DegreeOfRoasting.valueOf(value as String) }, { it.name }).nullable()
     val description = text("description").nullable()
     val isWashed = bool("isWashed").nullable()
     val isSemiWashed = bool("isSemiWashed").nullable()
@@ -79,3 +79,26 @@ data class NewBean(
     val degreeOfRoasting: DegreeOfRoasting? = null,
     val description: String? = null
 )
+
+
+@Serializable
+data class NewBeanWithoutRoasteryId(
+        val name: String,
+        val altitude: String? = null,
+        val processing: BeanProcessing? = null,
+        val composition: BeanComposition? = null,
+        val origins: List<String>? = null,
+        val degreeOfRoasting: DegreeOfRoasting? = null,
+        val description: String? = null
+) {
+    fun toNewBean(roasteryId: String): NewBean = NewBean(
+            name = this.name,
+            roasteryId,
+            altitude = this.altitude,
+            processing = this.processing,
+            composition = this.composition,
+            origins = this.origins,
+            degreeOfRoasting = this.degreeOfRoasting,
+            description = this.description
+    )
+}
