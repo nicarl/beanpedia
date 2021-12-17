@@ -31,7 +31,7 @@ dependencies {
     implementation("io.ktor:ktor-server-netty:1.6.7")
     implementation("ch.qos.logback:logback-classic:1.2.9")
 
-    implementation("com.h2database:h2:1.4.200")
+    implementation("com.h2database:h2:2.0.202")
     implementation("org.jetbrains.exposed:exposed-core:0.36.2")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.36.2")
     implementation("com.zaxxer:HikariCP:5.0.0")
