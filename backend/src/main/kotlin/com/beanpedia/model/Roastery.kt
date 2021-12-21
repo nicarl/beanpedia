@@ -9,7 +9,9 @@ object RoasteryEntities : Table() {
     val externalId = uuid("externalId").uniqueIndex()
     val name = varchar("name", length = 255)
     val description = text("description").nullable()
-    val addressId = reference("addressId", AddressEntities.id, ReferenceOption.CASCADE, ReferenceOption.RESTRICT).nullable()
+    val addressId = reference(
+        "addressId", AddressEntities.id, ReferenceOption.CASCADE, ReferenceOption.RESTRICT
+    ).nullable()
     val phoneNumber = varchar("phoneNumber", length = 255).nullable()
     val website = varchar("website", length = 255).nullable()
     val facebook = varchar("facebook", length = 255).nullable()

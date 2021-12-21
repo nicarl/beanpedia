@@ -6,8 +6,7 @@ import com.beanpedia.helpers.fakeNewRoastery
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-
-class DatabaseBeanServiceTest: DatabaseTest() {
+class DatabaseBeanServiceTest : DatabaseTest() {
     private val roasteryService = DatabaseRoasteryService()
     private val beanService = DatabaseBeanService()
 
@@ -18,7 +17,7 @@ class DatabaseBeanServiceTest: DatabaseTest() {
 
     @Test
     fun `get all beans`() {
-        val newRoastery1= fakeNewRoastery()
+        val newRoastery1 = fakeNewRoastery()
         val newRoastery2 = fakeNewRoastery()
         val createdRostery1 = roasteryService.createRoastery(newRoastery1)
         val createdRostery2 = roasteryService.createRoastery(newRoastery2)
@@ -30,5 +29,4 @@ class DatabaseBeanServiceTest: DatabaseTest() {
 
         assertEquals(listOf(createdBean1, createdBean2), beanService.getAllBeans())
     }
-
 }

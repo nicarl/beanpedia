@@ -4,43 +4,48 @@ import com.beanpedia.exceptions.NotFoundException
 import com.beanpedia.model.Bean
 import com.beanpedia.model.NewBean
 import com.beanpedia.service.BeanService
-import io.ktor.http.*
-import io.ktor.server.testing.*
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.ContentType
+import io.ktor.server.testing.TestApplicationEngine
+import io.ktor.server.testing.handleRequest
+import io.ktor.server.testing.setBody
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.util.*
+import java.util.UUID
 import kotlin.test.assertEquals
 
-class MockBeanService: BeanService {
+class MockBeanService : BeanService {
     private var beans: MutableMap<UUID, Bean> = mutableMapOf()
 
     private fun newBeanToBean(newBean: NewBean, uuid: UUID? = null): Bean {
         return Bean(
-                id = uuid?.toString() ?: UUID.randomUUID().toString(),
-                name = newBean.name,
-                roasteryId = newBean.roasteryId,
-                altitude = newBean.altitude,
-                processing = newBean.processing,
-                composition = newBean.composition,
-                origins = newBean.origins,
-                degreeOfRoasting = newBean.degreeOfRoasting,
-                description = newBean.description
+            id = uuid?.toString() ?: UUID.randomUUID().toString(),
+            name = newBean.name,
+            roasteryId = newBean.roasteryId,
+            altitude = newBean.altitude,
+            processing = newBean.processing,
+            composition = newBean.composition,
+            origins = newBean.origins,
+            degreeOfRoasting = newBean.degreeOfRoasting,
+            description = newBean.description
         )
     }
 
     override fun createBean(bean: NewBean): Bean {
         val uuid = UUID.randomUUID()
         val createdBean = Bean(
-                id=uuid.toString(),
-                name=bean.name,
-                roasteryId = bean.roasteryId,
-                altitude = bean.altitude,
-                processing = bean.processing,
-                composition = bean.composition,
-                origins = bean.origins,
-                degreeOfRoasting = bean.degreeOfRoasting,
-                description = bean.description
+            id = uuid.toString(),
+            name = bean.name,
+            roasteryId = bean.roasteryId,
+            altitude = bean.altitude,
+            processing = bean.processing,
+            composition = bean.composition,
+            origins = bean.origins,
+            degreeOfRoasting = bean.degreeOfRoasting,
+            description = bean.description
         )
         beans[uuid] = createdBean
         return createdBean
@@ -71,8 +76,6 @@ class MockBeanService: BeanService {
         return beans.values.toList().filter { it.roasteryId == roasteryId.toString() }
     }
 }
-
-
 
 fun TestApplicationEngine.insertBean(roasteryId: String): Bean {
     val bean = fakeNewBean(roasteryId)

@@ -1,13 +1,10 @@
 package com.beanpedia.helpers
 
-import com.beanpedia.service.DatabaseFactory
 import db.migration.V1__initial_migration
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
@@ -20,13 +17,17 @@ import kotlin.random.Random
  * @property tables An array of tables to initialize. Will be dropped and created before each individual test.
  */
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-abstract class DatabaseTest(
-        private val databaseName: String = "test_db_${Random.nextInt(0, 9999)}"
+open class DatabaseTest(
+    private val databaseName: String = "test_db_${Random.nextInt(0, 9999)}"
 ) {
 
     @Suppress("MemberVisibilityCanBePrivate")
-    protected val database = Database.connect("jdbc:h2:mem:$databaseName;DB_CLOSE_DELAY=-1;IGNORECASE=true;", driver = "org.h2.Driver")
+    protected val database = Database.connect(
+        "jdbc:h2:mem:$databaseName;DB_CLOSE_DELAY=-1;IGNORECASE=true;",
+        driver = "org.h2.Driver"
+    )
 
+    @Suppress("UnusedPrivateMember")
     @BeforeEach
     private fun databaseSetUp() {
         transaction {
@@ -35,7 +36,7 @@ abstract class DatabaseTest(
         V1__initial_migration().migrate(null)
     }
 
+    @Suppress("UnusedPrivateMember")
     @AfterEach
     private fun databaseTearDown() = TransactionManager.closeAndUnregister(database)
-
 }

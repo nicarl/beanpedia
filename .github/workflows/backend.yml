@@ -19,5 +19,5 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: Test
-        run: ./gradlew test :test
+      - name: Build
+        run: ./gradlew build

@@ -1,20 +1,23 @@
 package com.beanpedia.exceptions
 
-import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.http.*
-import io.ktor.response.*
+import io.ktor.application.Application
+import io.ktor.application.install
+import io.ktor.application.call
+import io.ktor.features.StatusPages
+import io.ktor.http.HttpStatusCode
+import io.ktor.response.respond
 import kotlinx.serialization.SerializationException
 
 fun Application.configureStatusPages() {
     install(StatusPages) {
         exception<UUIDConversionException> {
             call.respond(
-                    HttpStatusCode.NotFound
+                HttpStatusCode.NotFound
             )
         }
         exception<NotFoundException> {
-            call.respond(HttpStatusCode.NotFound
+            call.respond(
+                HttpStatusCode.NotFound
             )
         }
         exception<SerializationException> {
@@ -22,7 +25,7 @@ fun Application.configureStatusPages() {
         }
         exception<NoSuchElementException> {
             call.respond(
-                    HttpStatusCode.BadRequest
+                HttpStatusCode.BadRequest
             )
         }
     }

@@ -1,6 +1,13 @@
 package com.beanpedia.service
 
-import com.beanpedia.model.*
+import com.beanpedia.model.Bean
+import com.beanpedia.model.NewBean
+import com.beanpedia.model.BeanEntities
+import com.beanpedia.model.BeanProcessing
+import com.beanpedia.model.BeanComposition
+import com.beanpedia.model.RoasteryEntities
+import com.beanpedia.model.BeanOriginEntities
+import com.beanpedia.model.CountryEntities
 import org.jetbrains.exposed.sql.JoinType
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.batchInsert
@@ -14,22 +21,28 @@ interface BeanService {
     fun getAllBeans(): List<Bean>
     fun getBean(id: UUID): Bean?
     fun createBean(bean: NewBean): Bean
-    fun updateBean(updatedBean: NewBean, id: UUID ): Bean
+    fun updateBean(updatedBean: NewBean, id: UUID): Bean
     fun deleteBean(id: UUID)
     fun getAllBeansForRoasteryId(roasteryId: UUID): List<Bean>
 }
 
-
-class DatabaseBeanService: BeanService {
+class DatabaseBeanService : BeanService {
     private fun toBean(row: ResultRow, origins: List<String>?): Bean {
-        val beanProcessing = if (row[BeanEntities.isWashed] == true || row[BeanEntities.isSemiWashed] == true || row[BeanEntities.isNatural] == true) {
+        val beanProcessing = if (
+            row[BeanEntities.isWashed] == true ||
+            row[BeanEntities.isSemiWashed] == true ||
+            row[BeanEntities.isNatural] == true
+        ) {
             BeanProcessing(
                 isNatural = row[BeanEntities.isNatural] ?: false,
                 isSemiWashed = row[BeanEntities.isSemiWashed] ?: false,
                 isWashed = row[BeanEntities.isWashed] ?: false
             )
         } else { null }
-        val beanComposition = if (row[BeanEntities.containsArabica] == true || row[BeanEntities.containsRobusta] == true) {
+        val beanComposition = if (
+            row[BeanEntities.containsArabica] == true ||
+            row[BeanEntities.containsRobusta] == true
+        ) {
             BeanComposition(
                 containsArabica = row[BeanEntities.containsArabica] ?: false,
                 containsRobusta = row[BeanEntities.containsRobusta] ?: false,
@@ -64,11 +77,15 @@ class DatabaseBeanService: BeanService {
             CountryEntities, JoinType.INNER, additionalConstraint = {
                 BeanOriginEntities.origin eq CountryEntities.id
             }
-        ).slice(CountryEntities.alpha2Code).select { BeanOriginEntities.beanId eq beanId }.map { it[CountryEntities.alpha2Code] }.toList().ifEmpty { null }
+        ).slice(CountryEntities.alpha2Code).select {
+            BeanOriginEntities.beanId eq beanId
+        }.map { it[CountryEntities.alpha2Code] }.toList().ifEmpty { null }
     }
 
     override fun getBean(id: UUID): Bean? = transaction {
-        val beanId = BeanEntities.slice(BeanEntities.id).select { BeanEntities.externalId eq id }.mapNotNull { it[BeanEntities.id] }.singleOrNull()
+        val beanId = BeanEntities.slice(BeanEntities.id).select {
+            BeanEntities.externalId eq id
+        }.mapNotNull { it[BeanEntities.id] }.singleOrNull()
             ?: return@transaction null
         BeanEntities.join(
             RoasteryEntities, JoinType.INNER, additionalConstraint = {
@@ -78,7 +95,9 @@ class DatabaseBeanService: BeanService {
     }
 
     override fun createBean(bean: NewBean): Bean = transaction {
-        val internalRoasteryId = RoasteryEntities.slice(RoasteryEntities.id).select { RoasteryEntities.externalId eq UUID.fromString(bean.roasteryId) }.mapNotNull { it[RoasteryEntities.id] }.single()
+        val internalRoasteryId = RoasteryEntities.slice(RoasteryEntities.id).select {
+            RoasteryEntities.externalId eq UUID.fromString(bean.roasteryId)
+        }.mapNotNull { it[RoasteryEntities.id] }.single()
 
         val newBeanId = BeanEntities.insert {
             it[externalId] = UUID.randomUUID()
