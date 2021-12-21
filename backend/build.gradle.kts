@@ -6,7 +6,7 @@ plugins {
     application
     kotlin("jvm") version "1.6.10"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
+    id("io.gitlab.arturbosch.detekt") version "1.18.0"
 }
 
 tasks.withType<KotlinCompile>().all {
@@ -26,6 +26,7 @@ repositories {
 }
 
 dependencies {
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0")
     implementation("io.ktor:ktor-server-core:1.6.7")
     implementation("io.ktor:ktor-serialization:1.6.7")
     implementation("io.ktor:ktor-server-netty:1.6.7")
@@ -44,6 +45,10 @@ dependencies {
     testImplementation("io.github.serpro69:kotlin-faker:1.9.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+}
+
+detekt {
+    autoCorrect = true
 }
 
 tasks.test {

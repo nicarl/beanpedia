@@ -4,12 +4,16 @@ import com.beanpedia.model.NewBeanWithoutRoasteryId
 import com.beanpedia.model.NewRoastery
 import com.beanpedia.service.BeanService
 import com.beanpedia.service.RoasteryService
-import io.ktor.application.*
-import io.ktor.http.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.*
-
+import io.ktor.application.call
+import io.ktor.http.HttpStatusCode
+import io.ktor.request.receive
+import io.ktor.response.respond
+import io.ktor.routing.Route
+import io.ktor.routing.route
+import io.ktor.routing.get
+import io.ktor.routing.post
+import io.ktor.routing.put
+import io.ktor.routing.delete
 
 fun Route.roasteries(roasteryService: RoasteryService, beanService: BeanService) {
     route("/roasteries") {
@@ -44,7 +48,7 @@ fun Route.roasteries(roasteryService: RoasteryService, beanService: BeanService)
                 call.respond(HttpStatusCode.OK)
             }
 
-            route("beans"){
+            route("beans") {
                 get {
                     val id = getUUIDFromPath()
                     val roastery = roasteryService.getRoastery(id)
@@ -60,9 +64,9 @@ fun Route.roasteries(roasteryService: RoasteryService, beanService: BeanService)
                     val id = getUUIDFromPath()
                     val bean = call.receive<NewBeanWithoutRoasteryId>()
                     val roastery = roasteryService.getRoastery(id)
-                    if (roastery == null) {call.respond(HttpStatusCode.NotFound)} else {
+                    if (roastery == null) { call.respond(HttpStatusCode.NotFound) } else {
                         val insertedBean = beanService.createBean(
-                                bean.toNewBean(roastery.id)
+                            bean.toNewBean(roastery.id)
                         )
                         call.respond(insertedBean)
                     }

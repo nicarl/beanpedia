@@ -5,18 +5,18 @@ import com.beanpedia.helpers.DatabaseTest
 import com.beanpedia.helpers.fakeNewRoastery
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.util.*
+import java.util.UUID
 import kotlin.NoSuchElementException
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
-class DatabaseRoasteryServiceTest: DatabaseTest() {
+class DatabaseRoasteryServiceTest : DatabaseTest() {
     private val roasteryService = DatabaseRoasteryService()
 
     @Test
     fun `get all roasteries`() {
-        val newRoastery1= fakeNewRoastery()
+        val newRoastery1 = fakeNewRoastery()
         val newRoastery2 = fakeNewRoastery()
         val createdRostery1 = roasteryService.createRoastery(newRoastery1)
         val createdRostery2 = roasteryService.createRoastery(newRoastery2)
@@ -35,7 +35,7 @@ class DatabaseRoasteryServiceTest: DatabaseTest() {
 
     @Test
     fun `get roastery`() {
-        val newRoastery1= fakeNewRoastery()
+        val newRoastery1 = fakeNewRoastery()
         val newRoastery2 = fakeNewRoastery()
         val createdRostery1 = roasteryService.createRoastery(newRoastery1)
         roasteryService.createRoastery(newRoastery2)
@@ -54,7 +54,7 @@ class DatabaseRoasteryServiceTest: DatabaseTest() {
     @Test
     fun `create roastery for nonexisting country code`() {
         val newRoastery = fakeNewRoastery("XX")
-        assertThrows<NoSuchElementException> {roasteryService.createRoastery(newRoastery)}
+        assertThrows<NoSuchElementException> { roasteryService.createRoastery(newRoastery) }
     }
 
     @Test
@@ -90,7 +90,9 @@ class DatabaseRoasteryServiceTest: DatabaseTest() {
         val createdRoastery = roasteryService.createRoastery(roastery)
 
         val newRoastery = fakeNewRoastery(countryCode = "XY")
-        assertThrows<NoSuchElementException> { roasteryService.updateRoastery(newRoastery, UUID.fromString(createdRoastery.id))}
+        assertThrows<NoSuchElementException> {
+            roasteryService.updateRoastery(newRoastery, UUID.fromString(createdRoastery.id))
+        }
     }
 
     @Test

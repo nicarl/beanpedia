@@ -3,9 +3,12 @@ package com.beanpedia.service
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.flywaydb.core.Flyway
+import org.flywaydb.core.api.FlywayException
 import org.jetbrains.exposed.sql.Database
 import org.slf4j.LoggerFactory
 import javax.sql.DataSource
+
+const val POOL_SIZE = 3
 
 object DatabaseFactory {
 
@@ -22,7 +25,7 @@ object DatabaseFactory {
         val config = HikariConfig().apply {
             driverClassName = "org.h2.Driver"
             jdbcUrl = "jdbc:h2:mem:test"
-            maximumPoolSize = 3
+            maximumPoolSize = POOL_SIZE
             isAutoCommit = false
             transactionIsolation = "TRANSACTION_REPEATABLE_READ"
             validate()
@@ -37,7 +40,7 @@ object DatabaseFactory {
         try {
             flyway.info()
             flyway.migrate()
-        } catch (e: Exception) {
+        } catch (e: FlywayException) {
             log.error("Exception running flyway migration", e)
             throw e
         }

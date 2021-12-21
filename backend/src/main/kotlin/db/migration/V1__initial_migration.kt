@@ -263,6 +263,7 @@ val alpha2Codes = listOf(
     "ZM"
 )
 
+@Suppress("ClassNaming")
 class V1__initial_migration : BaseJavaMigration() {
     override fun migrate(context: Context?) {
         transaction {

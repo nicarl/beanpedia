@@ -1,18 +1,25 @@
 package com.beanpedia.routes
 
-import com.beanpedia.helpers.*
+import com.beanpedia.helpers.MockRoasteryService
+import com.beanpedia.helpers.MockBeanService
+import com.beanpedia.helpers.insertRoastery
+import com.beanpedia.helpers.insertBean
+import com.beanpedia.helpers.fakeNewBean
 import com.beanpedia.installExtensions
 import com.beanpedia.model.Bean
-
-import io.ktor.http.*
-import io.ktor.server.testing.*
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpHeaders
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.testing.withTestApplication
+import io.ktor.server.testing.handleRequest
+import io.ktor.server.testing.setBody
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.util.*
 import org.junit.jupiter.api.Test
+import java.util.UUID
 import kotlin.test.assertEquals
-
 
 class BeansRouteTest {
     @Test
@@ -72,8 +79,13 @@ class BeansRouteTest {
 
             handleRequest(HttpMethod.Get, "/beans").apply {
                 assertEquals(HttpStatusCode.OK, response.status())
-                assertEquals(listOf(insertedBean1,
-                insertedBean2), Json.decodeFromString(response.content!!))
+                assertEquals(
+                    listOf(
+                        insertedBean1,
+                        insertedBean2
+                    ),
+                    Json.decodeFromString(response.content!!)
+                )
             }
         }
     }
@@ -164,5 +176,4 @@ class BeansRouteTest {
             }
         }
     }
-
 }

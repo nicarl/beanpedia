@@ -4,6 +4,9 @@ import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.Table
 
+const val PRECISION = 3
+const val SCALE = 2
+
 enum class DegreeOfRoasting {
     LIGHT, MEDIUM, DARK
 }
@@ -28,13 +31,18 @@ object BeanEntities : Table() {
     val name = varchar("name", length = 255)
     val roasteryId = reference("roasteryId", RoasteryEntities.id, ReferenceOption.CASCADE, ReferenceOption.RESTRICT)
     val altitude = varchar("altitude", length = 255).nullable()
-    val degreeOfRoasting = customEnumeration("degreeOfRoasting", "ENUM('LIGHT', 'MEDIUM', 'DARK')", { value -> DegreeOfRoasting.valueOf(value as String) }, { it.name }).nullable()
+    val degreeOfRoasting = customEnumeration(
+        "degreeOfRoasting",
+        "ENUM('LIGHT', 'MEDIUM', 'DARK')",
+        { value -> DegreeOfRoasting.valueOf(value as String) },
+        { it.name }
+    ).nullable()
     val description = text("description").nullable()
     val isWashed = bool("isWashed").nullable()
     val isSemiWashed = bool("isSemiWashed").nullable()
     val isNatural = bool("isNatural").nullable()
-    val arabicaFraction = decimal("arabicaFraction", 3, 2).nullable()
-    val robustaFraction = decimal("robustaFraction", 3, 2).nullable()
+    val arabicaFraction = decimal("arabicaFraction", PRECISION, SCALE).nullable()
+    val robustaFraction = decimal("robustaFraction", PRECISION, SCALE).nullable()
     val containsArabica = bool("containsArabica").nullable()
     val containsRobusta = bool("containsRobusta").nullable()
     override val primaryKey = PrimaryKey(id)
@@ -80,25 +88,24 @@ data class NewBean(
     val description: String? = null
 )
 
-
 @Serializable
 data class NewBeanWithoutRoasteryId(
-        val name: String,
-        val altitude: String? = null,
-        val processing: BeanProcessing? = null,
-        val composition: BeanComposition? = null,
-        val origins: List<String>? = null,
-        val degreeOfRoasting: DegreeOfRoasting? = null,
-        val description: String? = null
+    val name: String,
+    val altitude: String? = null,
+    val processing: BeanProcessing? = null,
+    val composition: BeanComposition? = null,
+    val origins: List<String>? = null,
+    val degreeOfRoasting: DegreeOfRoasting? = null,
+    val description: String? = null
 ) {
     fun toNewBean(roasteryId: String): NewBean = NewBean(
-            name = this.name,
-            roasteryId,
-            altitude = this.altitude,
-            processing = this.processing,
-            composition = this.composition,
-            origins = this.origins,
-            degreeOfRoasting = this.degreeOfRoasting,
-            description = this.description
+        name = this.name,
+        roasteryId,
+        altitude = this.altitude,
+        processing = this.processing,
+        composition = this.composition,
+        origins = this.origins,
+        degreeOfRoasting = this.degreeOfRoasting,
+        description = this.description
     )
 }
