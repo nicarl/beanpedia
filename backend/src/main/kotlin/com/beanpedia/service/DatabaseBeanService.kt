@@ -1,13 +1,13 @@
 package com.beanpedia.service
 
 import com.beanpedia.model.Bean
-import com.beanpedia.model.NewBean
-import com.beanpedia.model.BeanEntities
-import com.beanpedia.model.BeanProcessing
 import com.beanpedia.model.BeanComposition
-import com.beanpedia.model.RoasteryEntities
+import com.beanpedia.model.BeanEntities
 import com.beanpedia.model.BeanOriginEntities
+import com.beanpedia.model.BeanProcessing
 import com.beanpedia.model.CountryEntities
+import com.beanpedia.model.NewBean
+import com.beanpedia.model.RoasteryEntities
 import org.jetbrains.exposed.sql.JoinType
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.batchInsert

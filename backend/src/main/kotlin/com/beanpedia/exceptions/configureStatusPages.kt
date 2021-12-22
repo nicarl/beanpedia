@@ -1,8 +1,8 @@
 package com.beanpedia.exceptions
 
 import io.ktor.application.Application
-import io.ktor.application.install
 import io.ktor.application.call
+import io.ktor.application.install
 import io.ktor.features.StatusPages
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond

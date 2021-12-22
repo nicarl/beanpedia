@@ -1,9 +1,9 @@
 package com.beanpedia.helpers
 
-import com.beanpedia.model.NewBean
 import com.beanpedia.model.BeanComposition
 import com.beanpedia.model.BeanProcessing
 import com.beanpedia.model.DegreeOfRoasting
+import com.beanpedia.model.NewBean
 import com.beanpedia.model.NewBeanWithoutRoasteryId
 import kotlin.random.Random
 

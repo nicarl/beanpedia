@@ -1,19 +1,19 @@
 package com.beanpedia.routes
 
-import com.beanpedia.helpers.MockRoasteryService
 import com.beanpedia.helpers.MockBeanService
-import com.beanpedia.helpers.insertRoastery
-import com.beanpedia.helpers.insertBean
+import com.beanpedia.helpers.MockRoasteryService
 import com.beanpedia.helpers.fakeNewBean
+import com.beanpedia.helpers.insertBean
+import com.beanpedia.helpers.insertRoastery
 import com.beanpedia.installExtensions
 import com.beanpedia.model.Bean
-import io.ktor.http.HttpMethod
-import io.ktor.http.HttpHeaders
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
-import io.ktor.server.testing.withTestApplication
 import io.ktor.server.testing.handleRequest
 import io.ktor.server.testing.setBody
+import io.ktor.server.testing.withTestApplication
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json

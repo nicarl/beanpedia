@@ -4,9 +4,9 @@ import com.beanpedia.exceptions.NotFoundException
 import com.beanpedia.model.NewRoastery
 import com.beanpedia.model.Roastery
 import com.beanpedia.service.RoasteryService
-import io.ktor.http.HttpMethod
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.TestApplicationEngine
 import io.ktor.server.testing.handleRequest
