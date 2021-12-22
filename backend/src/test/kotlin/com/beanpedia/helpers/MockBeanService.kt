@@ -4,10 +4,10 @@ import com.beanpedia.exceptions.NotFoundException
 import com.beanpedia.model.Bean
 import com.beanpedia.model.NewBean
 import com.beanpedia.service.BeanService
-import io.ktor.http.HttpMethod
-import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpStatusCode
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.TestApplicationEngine
 import io.ktor.server.testing.handleRequest
 import io.ktor.server.testing.setBody
