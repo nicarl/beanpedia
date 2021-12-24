@@ -9,8 +9,16 @@ object RoasteryEntities : Table() {
     val externalId = uuid("externalId").uniqueIndex()
     val name = varchar("name", length = 255)
     val description = text("description").nullable()
-    val addressId = reference(
-        "addressId", AddressEntities.id, ReferenceOption.CASCADE, ReferenceOption.RESTRICT
+    val address1 = varchar("address1", length = 255).nullable()
+    val address2 = varchar("address2", length = 255).nullable()
+    val address3 = varchar("address3", length = 255).nullable()
+    val city = varchar("city", length = 255).nullable()
+    val postalCode = varchar("postalCode", length = 255).nullable()
+    val countryId = reference(
+        "countryId",
+        CountryEntities.id,
+        ReferenceOption.RESTRICT,
+        ReferenceOption.RESTRICT
     ).nullable()
     val phoneNumber = varchar("phoneNumber", length = 255).nullable()
     val website = varchar("website", length = 255).nullable()
