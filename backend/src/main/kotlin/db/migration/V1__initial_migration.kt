@@ -1,6 +1,5 @@
 package db.migration
 
-import com.beanpedia.model.AddressEntities
 import com.beanpedia.model.BeanEntities
 import com.beanpedia.model.BeanOriginEntities
 import com.beanpedia.model.CountryEntities
@@ -271,8 +270,7 @@ class V1__initial_migration : BaseJavaMigration() {
                 CountryEntities,
                 BeanOriginEntities,
                 BeanEntities,
-                RoasteryEntities,
-                AddressEntities
+                RoasteryEntities
             )
             CountryEntities.batchInsert(alpha2Codes) {
                 countryCode ->
