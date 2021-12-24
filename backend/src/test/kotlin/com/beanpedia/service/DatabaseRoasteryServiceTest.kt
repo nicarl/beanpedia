@@ -2,7 +2,11 @@ package com.beanpedia.service
 
 import com.beanpedia.exceptions.NotFoundException
 import com.beanpedia.helpers.DatabaseTest
+import com.beanpedia.helpers.fakeNewBean
 import com.beanpedia.helpers.fakeNewRoastery
+import com.beanpedia.model.BeanEntities
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.UUID
@@ -13,6 +17,7 @@ import kotlin.test.assertNull
 
 class DatabaseRoasteryServiceTest : DatabaseTest() {
     private val roasteryService = DatabaseRoasteryService()
+    private val beanService = DatabaseBeanService()
 
     @Test
     fun `get all roasteries`() {
@@ -69,6 +74,21 @@ class DatabaseRoasteryServiceTest : DatabaseTest() {
     fun `delete non existing roastery`() {
         assertThrows<NotFoundException> {
             roasteryService.deleteRoastery(UUID.randomUUID())
+        }
+    }
+
+    @Test
+    fun `delete roastery removes bean`() {
+        val newRoastery = fakeNewRoastery()
+        val createdRoastery = roasteryService.createRoastery(newRoastery)
+        val newBean = fakeNewBean(createdRoastery.id)
+        beanService.createBean(newBean)
+
+        roasteryService.deleteRoastery(UUID.fromString(createdRoastery.id))
+
+        transaction {
+            val beans = BeanEntities.selectAll().toList()
+            assertEquals(emptyList(), beans)
         }
     }
 

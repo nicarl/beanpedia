@@ -1,5 +1,6 @@
 package com.beanpedia.service
 
+import com.beanpedia.exceptions.NotFoundException
 import com.beanpedia.model.Bean
 import com.beanpedia.model.BeanComposition
 import com.beanpedia.model.BeanEntities
@@ -11,10 +12,12 @@ import com.beanpedia.model.RoasteryEntities
 import org.jetbrains.exposed.sql.JoinType
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.batchInsert
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 import java.util.UUID
 
 interface BeanService {
@@ -27,7 +30,7 @@ interface BeanService {
 }
 
 class DatabaseBeanService : BeanService {
-    private fun toBean(row: ResultRow, origins: List<String>?): Bean {
+    private fun toBean(row: ResultRow, origins: Set<String>?): Bean {
         val beanProcessing = if (
             row[BeanEntities.isWashed] == true ||
             row[BeanEntities.isSemiWashed] == true ||
@@ -72,14 +75,14 @@ class DatabaseBeanService : BeanService {
         ).selectAll().map { toBean(it, getOrigins(it[BeanEntities.id])) }
     }
 
-    private fun getOrigins(beanId: Int): List<String>? {
+    private fun getOrigins(beanId: Int): Set<String>? {
         return BeanOriginEntities.join(
             CountryEntities, JoinType.INNER, additionalConstraint = {
                 BeanOriginEntities.origin eq CountryEntities.id
             }
         ).slice(CountryEntities.alpha2Code).select {
             BeanOriginEntities.beanId eq beanId
-        }.map { it[CountryEntities.alpha2Code] }.toList().ifEmpty { null }
+        }.map { it[CountryEntities.alpha2Code] }.toSet().ifEmpty { null }
     }
 
     override fun getBean(id: UUID): Bean? = transaction {
@@ -131,15 +134,66 @@ class DatabaseBeanService : BeanService {
         ).select { BeanEntities.id eq newBeanId }.map { toBean(it, getOrigins(newBeanId)) }.single()
     }
 
-    override fun updateBean(updatedBean: NewBean, id: UUID): Bean {
-        TODO("Not yet implemented")
+    override fun updateBean(updatedBean: NewBean, id: UUID): Bean = transaction {
+        val beanId = BeanEntities.slice(BeanEntities.id).select {
+            BeanEntities.externalId eq id
+        }.mapNotNull { it[BeanEntities.id] }.single()
+
+        val internalRoasteryId = RoasteryEntities.slice(RoasteryEntities.id).select {
+            RoasteryEntities.externalId eq UUID.fromString(updatedBean.roasteryId)
+        }.mapNotNull { it[RoasteryEntities.id] }.single()
+
+        BeanEntities.update({ BeanEntities.externalId eq id }) {
+            it[name] = updatedBean.name
+            it[roasteryId] = internalRoasteryId
+            it[altitude] = updatedBean.altitude
+            it[degreeOfRoasting] = updatedBean.degreeOfRoasting
+            it[description] = updatedBean.description
+            it[isWashed] = updatedBean.processing?.isWashed
+            it[isSemiWashed] = updatedBean.processing?.isSemiWashed
+            it[isNatural] = updatedBean.processing?.isNatural
+            it[arabicaFraction] = updatedBean.composition?.arabicaFraction?.toBigDecimal()
+            it[robustaFraction] = updatedBean.composition?.robustaFraction?.toBigDecimal()
+            it[containsArabica] = updatedBean.composition?.containsArabica
+            it[containsRobusta] = updatedBean.composition?.containsRobusta
+        }
+        BeanOriginEntities.deleteWhere { BeanOriginEntities.beanId eq beanId }
+
+        if (updatedBean.origins != null && updatedBean.origins.isNotEmpty()) {
+            BeanOriginEntities.batchInsert(updatedBean.origins) {
+                origin ->
+                this[BeanOriginEntities.beanId] = beanId
+                this[BeanOriginEntities.origin] = CountryEntities.slice(CountryEntities.id).select {
+                    CountryEntities.alpha2Code eq origin
+                }.single()[CountryEntities.id]
+            }
+        }
+
+        BeanEntities.join(
+            RoasteryEntities, JoinType.INNER, additionalConstraint = {
+                BeanEntities.roasteryId eq RoasteryEntities.id
+            }
+        ).select { BeanEntities.id eq beanId }.map { toBean(it, getOrigins(beanId)) }.single()
     }
 
-    override fun deleteBean(id: UUID) {
-        TODO("Not yet implemented")
+    override fun deleteBean(id: UUID) = transaction {
+        val bean = BeanEntities.select { BeanEntities.externalId eq id }.singleOrNull()
+        if (bean == null) {
+            throw NotFoundException()
+        } else {
+            BeanEntities.deleteWhere { BeanEntities.externalId eq id }
+        }
+        Unit
     }
 
-    override fun getAllBeansForRoasteryId(roasteryId: UUID): List<Bean> {
-        TODO("Not yet implemented")
+    override fun getAllBeansForRoasteryId(roasteryId: UUID): List<Bean> = transaction {
+        val internalRoasteryId = RoasteryEntities.select {
+            RoasteryEntities.externalId eq roasteryId
+        }.mapNotNull { it[RoasteryEntities.id] }.singleOrNull() ?: throw NotFoundException()
+        BeanEntities.join(
+            RoasteryEntities, JoinType.INNER, additionalConstraint = {
+                BeanEntities.roasteryId eq RoasteryEntities.id
+            }
+        ).select { BeanEntities.roasteryId eq internalRoasteryId }.map { toBean(it, getOrigins(it[BeanEntities.id])) }
     }
 }
