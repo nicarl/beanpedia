@@ -18,8 +18,8 @@ object CountryEntities : Table() {
 }
 
 object BeanOriginEntities : Table() {
-    val beanId = reference("beanId", BeanEntities.id)
-    val origin = reference("origin", CountryEntities.id)
+    val beanId = reference("beanId", BeanEntities.id, ReferenceOption.CASCADE, ReferenceOption.RESTRICT)
+    val origin = reference("origin", CountryEntities.id, ReferenceOption.RESTRICT, ReferenceOption.RESTRICT)
     init {
         uniqueIndex("beanOriginIndex", beanId, origin)
     }
@@ -71,7 +71,7 @@ data class Bean(
     val altitude: String?,
     val processing: BeanProcessing?,
     val composition: BeanComposition?,
-    val origins: List<String>?,
+    val origins: Set<String>?,
     val degreeOfRoasting: DegreeOfRoasting?,
     val description: String?
 )
@@ -83,7 +83,7 @@ data class NewBean(
     val altitude: String? = null,
     val processing: BeanProcessing? = null,
     val composition: BeanComposition? = null,
-    val origins: List<String>? = null,
+    val origins: Set<String>? = null,
     val degreeOfRoasting: DegreeOfRoasting? = null,
     val description: String? = null
 )
@@ -94,7 +94,7 @@ data class NewBeanWithoutRoasteryId(
     val altitude: String? = null,
     val processing: BeanProcessing? = null,
     val composition: BeanComposition? = null,
-    val origins: List<String>? = null,
+    val origins: Set<String>? = null,
     val degreeOfRoasting: DegreeOfRoasting? = null,
     val description: String? = null
 ) {
