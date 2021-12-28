@@ -33,7 +33,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.10")
 
     implementation("com.h2database:h2:1.4.200")
-    implementation("org.jetbrains.exposed:exposed-core:0.36.2")
+    implementation("org.jetbrains.exposed:exposed-core:0.37.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.36.2")
     implementation("com.zaxxer:HikariCP:5.0.0")
     implementation("org.flywaydb:flyway-core:8.3.0")
