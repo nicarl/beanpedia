@@ -35,7 +35,7 @@ dependencies {
     implementation("com.h2database:h2:1.4.200")
     implementation("org.jetbrains.exposed:exposed-core:0.37.3")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.37.3")
-    implementation("com.zaxxer:HikariCP:5.0.0")
+    implementation("com.zaxxer:HikariCP:5.0.1")
     implementation("org.flywaydb:flyway-core:8.4.0")
 
     testImplementation("io.ktor:ktor-server-tests:1.6.7")
