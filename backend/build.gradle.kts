@@ -42,7 +42,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.6.10")
 //    testImplementation("org.assertj:assertj-core:3.19.0")
 //    testImplementation("io.rest-assured:rest-assured:4.4.0")
-    testImplementation("io.github.serpro69:kotlin-faker:1.9.0")
+    testImplementation("io.github.serpro69:kotlin-faker:1.10.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }
