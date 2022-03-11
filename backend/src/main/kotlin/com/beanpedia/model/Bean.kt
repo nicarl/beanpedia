@@ -14,7 +14,7 @@ enum class DegreeOfRoasting {
 object CountryEntities : Table() {
     val id = integer("id").autoIncrement()
     val alpha2Code = char("alpha2Code", length = 2).uniqueIndex()
-    override val primaryKey = PrimaryKey(BeanEntities.id)
+    override val primaryKey = PrimaryKey(id)
 }
 
 object BeanOriginEntities : Table() {

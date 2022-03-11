@@ -22,7 +22,7 @@ fun fakeNewBean(roasteryId: String): NewBean = NewBean(
         arabicaFraction = Random.nextFloat(),
         robustaFraction = Random.nextFloat(),
     ),
-    origins = List(Random.nextInt(0, 5)) { faker.address.countryCode() }.toSet(),
+    origins = List(Random.nextInt(1, 5)) { faker.address.countryCode() }.toSet(),
     degreeOfRoasting = faker.random.nextEnum<DegreeOfRoasting>(),
     description = faker.lorem.toString()
 )
