@@ -25,7 +25,7 @@ object RoasteryEntities : Table() {
     val facebook = varchar("facebook", length = 255).nullable()
     val instagram = varchar("instagram", length = 255).nullable()
     val twitter = varchar("twitter", length = 255).nullable()
-    override val primaryKey = PrimaryKey(BeanEntities.id)
+    override val primaryKey = PrimaryKey(id)
 }
 
 @Serializable
