@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk as build
+FROM openjdk:117-jdk-slim-buster as build
 WORKDIR /app
 COPY gradlew ./
 COPY settings.gradle.kts ./
@@ -9,7 +9,7 @@ RUN ./gradlew wrapper
 COPY src ./src
 RUN ./gradlew installDist
 
-FROM openjdk:17-jdk
+FROM openjdk:17-jdk-slim-buster
 EXPOSE 8080
 WORKDIR /app
 RUN adduser -s /bin/bash user \
