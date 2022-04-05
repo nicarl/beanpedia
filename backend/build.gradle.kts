@@ -5,7 +5,7 @@ val compileKotlin: KotlinCompile by tasks
 plugins {
     application
     kotlin("jvm") version "1.6.20"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.20"
     id("io.gitlab.arturbosch.detekt") version "1.19.0"
 }
 
