@@ -34,7 +34,7 @@ dependencies {
 
     implementation("com.h2database:h2:2.1.212")
     implementation("org.jetbrains.exposed:exposed-core:0.38.1")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.37.3")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.38.1")
     implementation("com.zaxxer:HikariCP:5.0.1")
     implementation("org.flywaydb:flyway-core:8.5.7")
 
