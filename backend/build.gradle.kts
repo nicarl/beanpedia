@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.20.0")
     implementation("io.ktor:ktor-server-core:1.6.8")
     implementation("io.ktor:ktor-serialization:1.6.8")
     implementation("io.ktor:ktor-server-netty:1.6.8")
@@ -36,7 +36,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-core:0.38.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.38.1")
     implementation("com.zaxxer:HikariCP:5.0.1")
-    implementation("org.flywaydb:flyway-core:8.5.7")
+    implementation("org.flywaydb:flyway-core:8.5.8")
 
     testImplementation("io.ktor:ktor-server-tests:1.6.8")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.6.20")
