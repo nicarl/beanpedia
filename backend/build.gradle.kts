@@ -29,7 +29,7 @@ dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0")
     implementation("io.ktor:ktor-server-core:1.6.8")
     implementation("io.ktor:ktor-serialization:1.6.8")
-    implementation("io.ktor:ktor-server-netty:1.6.8")
+    implementation("io.ktor:ktor-server-netty:2.0.2")
     implementation("ch.qos.logback:logback-classic:1.2.11")
 
     implementation("com.h2database:h2:2.1.212")
