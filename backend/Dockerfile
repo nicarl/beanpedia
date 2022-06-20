@@ -9,7 +9,7 @@ RUN ./gradlew wrapper
 COPY src ./src
 RUN ./gradlew installDist
 
-FROM openjdk:17-jdk-slim-buster
+FROM openjdk:17-slim-buster
 EXPOSE 8080
 WORKDIR /app
 RUN adduser -s /bin/bash user \
