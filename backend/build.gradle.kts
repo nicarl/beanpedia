@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.19.0")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
     implementation("io.ktor:ktor-server-core:1.6.8")
     implementation("io.ktor:ktor-serialization:1.6.8")
     implementation("io.ktor:ktor-server-netty:1.6.8")
