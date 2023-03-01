@@ -38,7 +38,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.0.1")
     implementation("org.flywaydb:flyway-core:8.5.8")
 
-    testImplementation("io.ktor:ktor-server-tests:1.6.8")
+    testImplementation("io.ktor:ktor-server-tests:2.2.4")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.6.20")
 //    testImplementation("org.assertj:assertj-core:3.19.0")
 //    testImplementation("io.rest-assured:rest-assured:4.4.0")
